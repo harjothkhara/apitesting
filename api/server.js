@@ -1,16 +1,17 @@
-const express = require("express");
+const express = require('express');
 
-const Hobbits = require("../hobbits/hobbitsModel.js");
+const Hobbits = require('../hobbits/hobbitsModel.js');
 
 const server = express();
 
 server.use(express.json());
+server.use(cors());
 
-server.get("/", (req, res) => {
-  res.status(200).json({ api: "up" });
+server.get('/', (req, res) => {
+  res.status(200).json({ api: 'up' });
 });
 
-server.get("/hobbits", (req, res) => {
+server.get('/hobbits', (req, res) => {
   Hobbits.getAll()
     .then(hobbits => {
       res.status(200).json(hobbits);
