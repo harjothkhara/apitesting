@@ -10,16 +10,15 @@ const pgDb = process.env.PG_DB;
 // knex migrate:latest --env production
 // knex seed:run --env production
 
-// postgres connection
-const prodConnection = `postgres://${pgUser}@localhost/${pgDb}`;
+const localPgConnection = `postgres://${pgUser}@localhost/${pgDb}`;
+
+//DATABASE_URL config var is added to your Heroku app’s configuration. This contains the URL your app used to access the database.
+const dbConnection = process.env.DATABASE_URL + '?ssl=true';
 
 module.exports = {
   development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './data/hobbits.db3'
-    },
-    useNullAsDefault: true,
+    client: 'pg', // npm i pg
+    connection: localPgConnection,
     migrations: {
       directory: './data/migrations'
     },
@@ -47,7 +46,7 @@ module.exports = {
   },
   production: {
     client: 'pg', // npm i pg
-    connection: prodConnection,
+    connection: dbConnection,
     pool: {
       // config connections between app and server
       min: 2,
